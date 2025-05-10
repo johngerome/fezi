@@ -199,14 +199,6 @@ async function routerExample() {
 
   const { data: newPost, error: postError, status: postStatus } = response;
 
-  // We can access the properties directly because TypeScript knows the type
-  console.log('New post from router API:', {
-    id: newPost?.id, // TypeScript knows this is a number
-    title: newPost?.title, // TypeScript knows this is a string
-    body: newPost?.body, // TypeScript knows this is a string
-    userId: newPost?.userId, // TypeScript knows this is a number
-  });
-
   if (postError) {
     console.error('Error in router example:', postError);
     return;
