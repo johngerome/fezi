@@ -1,5 +1,8 @@
 name: Release
 
+permissions:
+  contents: write
+
 on:
   push:
     tags:
@@ -8,35 +11,26 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-
       - name: Set node
         uses: actions/setup-node@v4
         with:
+          registry-url: https://registry.npmjs.org/
           node-version: lts/*
-          cache: pnpm
-          registry-url: 'https://registry.npmjs.org'
 
-      - name: Install dependencies
-        run: pnpm install
+      - name: Setup
+        run: npm i -g @antfu/ni
 
-      - name: Build
-        run: pnpm build
+      - name: Install
+        run: nci
 
-      - name: Generate Changelog
-        run: npx changelogithub
+      - run: npm start
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          
-      - name: Publish to npm
-        run: pnpm publish --access public --no-git-checks
+          GITHUB_TOKEN: ${{secrets.GH_TOKEN}}
+
+      - run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
