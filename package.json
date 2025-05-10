@@ -41,8 +41,7 @@
     "typecheck:all": "pnpm typecheck && pnpm typecheck:test",
     "typecheck:watch": "tsc --noEmit --watch",
     "prepublishOnly": "pnpm run typecheck:all && pnpm run build",
-    "release": "bumpp && pnpm publish",
-    "changelog": "npx changelogithub"
+    "release": "bumpp && pnpm publish"
   },
   "packageManager": "pnpm@10.8.1",
   "devDependencies": {
