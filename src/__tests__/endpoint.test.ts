@@ -198,8 +198,8 @@ describe('Endpoint', () => {
 
     it('should handle errors correctly', async () => {
       // Setup
-      const error = new Error('Network error');
-      const mockExecute = vi.fn().mockRejectedValue({ status: 500, message: 'Network error' });
+      const mockError = new Error('Network error');
+      const mockExecute = vi.fn().mockRejectedValue(mockError);
       client.execute = mockExecute;
 
       endpoint.path('/users').method('GET');
@@ -208,11 +208,19 @@ describe('Endpoint', () => {
       const result = await endpoint.execute();
 
       // Assert
-      expect(result).toEqual({
-        data: null,
-        error: { status: 500, message: 'Network error' },
-        status: 500,
-      });
+      expect(result.data).toBeNull();
+      // The status in the result comes from the errorStatus variable in endpoint.ts
+      expect(result.status).toBe(500);
+      expect(result.error).toBeDefined();
+      expect(result.error).not.toBeNull();
+      
+      // Add type guard to satisfy TypeScript
+      if (result.error) {
+        expect(result.error.name).toBe('ZimFetchError');
+        expect(result.error.message).toBe('Network error');
+        // The ZimFetchError.status will be undefined since we didn't provide a response object
+        // The status in the result comes from the errorStatus variable
+      }
     });
   });
 });

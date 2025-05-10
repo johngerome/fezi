@@ -1,3 +1,5 @@
+// Define base interfaces first to avoid circular references
+
 /**
  * ZimFetch request options interface
  */
@@ -13,41 +15,6 @@ export interface ZimFetchOptions extends RequestInit {
    * @default true
    */
   parseJson?: boolean;
-}
-
-/**
- * ZimFetch response interface
- */
-export interface ZimFetchResponse<T = any> {
-  /**
-   * Response data (parsed if JSON)
-   */
-  data: T;
-
-  /**
-   * Error object if request failed, null otherwise
-   */
-  error: ZimFetchError | null;
-
-  /**
-   * HTTP status code
-   */
-  status: number;
-
-  /**
-   * Response headers
-   */
-  headers: Headers;
-
-  /**
-   * Whether the request was successful (status in the range 200-299)
-   */
-  ok: boolean;
-
-  /**
-   * Original Response object
-   */
-  response: Response;
 }
 
 /**
@@ -107,3 +74,47 @@ export class ZimFetchError extends Error {
     }
   }
 }
+
+/**
+ * ZimFetch response interface
+ */
+export interface ZimFetchResponse<T = any> {
+  /**
+   * Response data (parsed if JSON)
+   */
+  data: T;
+
+  /**
+   * Error object if request failed, null otherwise
+   */
+  error: ZimFetchError | null;
+
+  /**
+   * HTTP status code
+   */
+  status: number;
+
+  /**
+   * Response headers
+   */
+  headers: Headers;
+
+  /**
+   * Whether the request was successful (status in the range 200-299)
+   */
+  ok: boolean;
+
+  /**
+   * Original Response object
+   */
+  response: Response;
+}
+
+/**
+ * Response structure returned by endpoint execution
+ */
+export type EndpointResponse<T> = {
+  data: T | null;
+  error: ZimFetchError | null;
+  status: number;
+};

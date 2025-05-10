@@ -1,5 +1,10 @@
-export * from './lib/types';
-export * from './lib/client';
-export * from './lib/router';
-export * from './lib/schema';
-export * from './lib/endpoint';
+// Export from types.ts
+export { ZimFetchOptions, ZimFetchResponse, ZimFetchError, EndpointResponse } from './lib/types';
+
+// Export from client.ts
+export { APIClient, APIClientOptions, Endpoint, RequestConfig, createClientAPI } from './lib/client';
+export type { RouterDefinition, ClientAPI } from './lib/router';
+
+// Export from schema.ts
+export { Schema, validateWithSchema, createZodSchema } from './lib/schema';
+export type { ZodLike, InferZod } from './lib/schema';

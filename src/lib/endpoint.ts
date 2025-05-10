@@ -1,6 +1,6 @@
 import { Schema, validateWithSchema, createZodSchema, ZodLike, InferZod } from './schema';
 import { APIClient } from './client';
-import { ZimFetchError } from './types';
+import { ZimFetchError, EndpointResponse } from './types';
 
 /**
  * Request configuration
@@ -127,7 +127,7 @@ export class Endpoint<TInput = any, TOutput = any> {
   async execute(
     input?: TInput,
     params?: Record<string, string | number | boolean | null | undefined>
-  ): Promise<{ data: TOutput | null; error: any; status: number }> {
+  ): Promise<EndpointResponse<TOutput>> {
     // Validate input if schema is provided
     let validatedInput: TInput | undefined = input;
     if (input && this.inputSchema) {
@@ -150,9 +150,13 @@ export class Endpoint<TInput = any, TOutput = any> {
       return { data, error: null, status: response.status };
     } catch (error) {
       // Type guard for ZimFetchError to safely access status property
-      const errorStatus =
-        error instanceof ZimFetchError && typeof error.status === 'number' ? error.status : 500;
-      return { data: null, error, status: errorStatus };
+      const zimError = error instanceof ZimFetchError ? error : new ZimFetchError(
+        error instanceof Error ? error.message : String(error),
+        this.config.path || '',
+        this.config
+      );
+      const errorStatus = typeof zimError.status === 'number' ? zimError.status : 500;
+      return { data: null, error: zimError, status: errorStatus };
     }
   }
 }
