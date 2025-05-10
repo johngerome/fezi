@@ -149,7 +149,7 @@ export class Endpoint<TInput = any, TOutput = any> {
 
       return { data, error: null, status: response.status };
     } catch (error) {
-      // Type guard for ZimFetchError to safely access status property
+      //  Ensure all errors are wrapped as ZimFetchError for consistent API responses
       const zimError =
         error instanceof ZimFetchError
           ? error

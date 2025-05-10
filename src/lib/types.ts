@@ -111,8 +111,10 @@ export interface ZimFetchResponse<T = any> {
 }
 
 /**
- * Response structure returned by endpoint execution
- */
+  * Response structure returned by endpoint execution
++ * Unlike ZimFetchResponse, this is a simpler structure used specifically 
++ * for endpoint execution results without headers and Response object.
+  */
 export type EndpointResponse<T> = {
   data: T | null;
   error: ZimFetchError | null;

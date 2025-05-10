@@ -209,17 +209,13 @@ describe('Endpoint', () => {
 
       // Assert
       expect(result.data).toBeNull();
-      // The status in the result comes from the errorStatus variable in endpoint.ts
       expect(result.status).toBe(500);
       expect(result.error).toBeDefined();
       expect(result.error).not.toBeNull();
 
-      // Add type guard to satisfy TypeScript
       if (result.error) {
         expect(result.error.name).toBe('ZimFetchError');
         expect(result.error.message).toBe('Network error');
-        // The ZimFetchError.status will be undefined since we didn't provide a response object
-        // The status in the result comes from the errorStatus variable
       }
     });
   });
