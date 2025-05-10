@@ -243,7 +243,7 @@ describe('Integration Tests', () => {
       expect(schemaData).toBeNull();
       expect(schemaStatus).toBe(500); // Our implementation returns 500 for all errors
       expect(schemaError).toBeTruthy();
-      expect(schemaError.message).toBe('Not found');
+      expect(schemaError!.message).toBe('Not found');
     });
 
     it('should handle network errors correctly', async () => {

@@ -272,7 +272,7 @@ describe('APIClient', () => {
       expect(data).toBeNull();
       expect(status).toBe(500);
       expect(error).toBeInstanceOf(ZimFetchError);
-      expect(error.message).toBe('The operation was aborted');
+      expect(error!.message).toBe('The operation was aborted');
 
       vi.useRealTimers();
     });
