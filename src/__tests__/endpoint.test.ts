@@ -213,7 +213,7 @@ describe('Endpoint', () => {
       expect(result.status).toBe(500);
       expect(result.error).toBeDefined();
       expect(result.error).not.toBeNull();
-      
+
       // Add type guard to satisfy TypeScript
       if (result.error) {
         expect(result.error.name).toBe('ZimFetchError');

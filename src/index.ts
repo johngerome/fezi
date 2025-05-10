@@ -2,7 +2,13 @@
 export { ZimFetchOptions, ZimFetchResponse, ZimFetchError, EndpointResponse } from './lib/types';
 
 // Export from client.ts
-export { APIClient, APIClientOptions, Endpoint, RequestConfig, createClientAPI } from './lib/client';
+export {
+  APIClient,
+  APIClientOptions,
+  Endpoint,
+  RequestConfig,
+  createClientAPI,
+} from './lib/client';
 export type { RouterDefinition, ClientAPI } from './lib/router';
 
 // Export from schema.ts

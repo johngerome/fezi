@@ -150,11 +150,14 @@ export class Endpoint<TInput = any, TOutput = any> {
       return { data, error: null, status: response.status };
     } catch (error) {
       // Type guard for ZimFetchError to safely access status property
-      const zimError = error instanceof ZimFetchError ? error : new ZimFetchError(
-        error instanceof Error ? error.message : String(error),
-        this.config.path || '',
-        this.config
-      );
+      const zimError =
+        error instanceof ZimFetchError
+          ? error
+          : new ZimFetchError(
+              error instanceof Error ? error.message : String(error),
+              this.config.path || '',
+              this.config
+            );
       const errorStatus = typeof zimError.status === 'number' ? zimError.status : 500;
       return { data: null, error: zimError, status: errorStatus };
     }
