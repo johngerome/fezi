@@ -33,53 +33,6 @@ pnpm add @johngerome/zimfetch
 
 ## Usage
 
-### 1. Basic APIClient Usage
-
-```typescript
-import { APIClient } from '@johngerome/zimfetch';
-
-const client = new APIClient({ url: 'https://jsonplaceholder.typicode.com' });
-
-// Basic GET request
-const response = await client.execute({ path: '/posts/1' });
-console.log(response.data);
-
-// POST request with JSON body
-const postResponse = await client.execute({
-  path: '/posts',
-  method: 'POST',
-  body: { title: 'foo', body: 'bar', userId: 1 },
-});
-console.log(postResponse.data);
-```
-
-### 2. Advanced Options (Headers, Timeout)
-
-```typescript
-const advancedResponse = await client.execute({
-  path: '/posts/1',
-  headers: {
-    Authorization: 'Bearer token123',
-    'X-Custom-Header': 'custom-value',
-  },
-  timeout: 3000, // 3 seconds
-});
-```
-
-### 3. Schema Validation with Zod
-
-```typescript
-import { z } from 'zod';
-
-const userSchema = z.object({ id: z.number(), name: z.string() });
-
-const getUser = client.route({ method: 'GET', path: '/users/1' }).output(userSchema);
-const user = await getUser.execute();
-// user is fully type-safe
-```
-
-### 4. Type-Safe Router Pattern
-
 ```typescript
 import { createClientAPI } from '@johngerome/zimfetch';
 
@@ -131,6 +84,13 @@ Promise that resolves to a response object with:
 - `status` - HTTP status code
 - `headers` - Response headers
 - `ok` - Boolean indicating if status is in the range 200-299
+
+## Inspiration
+
+ZimFetch draws inspiration from these excellent projects:
+
+- [oRPC](https://github.com/unnoq/orpc) - Type-safe RPC framework for TypeScript
+- [Hyper Fetch](https://hyperfetch.bettertyped.com/) - Modern data fetching library for TypeScript
 
 ## License
 
