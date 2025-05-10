@@ -15,15 +15,17 @@ async function basicGet() {
     url: 'https://jsonplaceholder.typicode.com',
   });
 
-  try {
-    const { data, error, status } = await client.execute({
-      path: '/posts/1',
-    });
-    console.log('Basic GET response:', data);
-    console.log('Status code:', status);
-  } catch (error) {
+  const { data, error, status } = await client.execute({
+    path: '/posts/1',
+  });
+
+  if (error) {
     console.error('Error in basic GET:', error);
+    return;
   }
+
+  console.log('Basic GET response:', data);
+  console.log('Status code:', status);
 }
 
 // POST request with JSON body
@@ -32,21 +34,23 @@ async function postWithJson() {
     url: 'https://jsonplaceholder.typicode.com',
   });
 
-  try {
-    const { data, error, status } = await client.execute({
-      path: '/posts',
-      method: 'POST',
-      body: {
-        title: 'foo',
-        body: 'bar',
-        userId: 1,
-      },
-    });
-    console.log('POST response:', data);
-    console.log('Status code:', status);
-  } catch (error) {
+  const { data, error, status } = await client.execute({
+    path: '/posts',
+    method: 'POST',
+    body: {
+      title: 'foo',
+      body: 'bar',
+      userId: 1,
+    },
+  });
+
+  if (error) {
     console.error('Error in POST:', error);
+    return;
   }
+
+  console.log('POST response:', data);
+  console.log('Status code:', status);
 }
 
 // Request with custom headers
@@ -55,19 +59,21 @@ async function requestWithHeaders() {
     url: 'https://jsonplaceholder.typicode.com',
   });
 
-  try {
-    const { data, error, status } = await client.execute({
-      path: '/posts/1',
-      headers: {
-        'X-Custom-Header': 'custom-value',
-        Authorization: 'Bearer token123',
-      },
-    });
-    console.log('Response with custom headers:', data);
-    console.log('Status code:', status);
-  } catch (error) {
+  const { data, error, status } = await client.execute({
+    path: '/posts/1',
+    headers: {
+      'X-Custom-Header': 'custom-value',
+      Authorization: 'Bearer token123',
+    },
+  });
+
+  if (error) {
     console.error('Error in request with headers:', error);
+    return;
   }
+
+  console.log('Response with custom headers:', data);
+  console.log('Status code:', status);
 }
 
 // Request with timeout
@@ -76,16 +82,18 @@ async function requestWithTimeout() {
     url: 'https://jsonplaceholder.typicode.com',
   });
 
-  try {
-    const { data, error, status } = await client.execute({
-      path: '/posts/1',
-      timeout: 3000, // 3 seconds
-    });
-    console.log('Response with timeout:', data);
-    console.log('Status code:', status);
-  } catch (error) {
+  const { data, error, status } = await client.execute({
+    path: '/posts/1',
+    timeout: 3000, // 3 seconds
+  });
+
+  if (error) {
     console.error('Error in request with timeout:', error);
+    return;
   }
+
+  console.log('Response with timeout:', data);
+  console.log('Status code:', status);
 }
 
 // ===== PART 2: APIClient usage =====
@@ -108,17 +116,17 @@ async function apiClientExample() {
     timeout: 5000,
   });
 
-  try {
-    // Define an endpoint with validation
-    const getUserEndpoint = client.route({ method: 'GET', path: '/users/1' }).output(userSchema);
+  const getUserEndpoint = client.route({ method: 'GET', path: '/users/1' }).output(userSchema);
 
-    // Execute the request
-    const { data, error, status } = await getUserEndpoint.execute();
-    console.log('User from validated endpoint:', data);
-    console.log('Status code:', status);
-  } catch (error) {
+  const { data, error, status } = await getUserEndpoint.execute();
+
+  if (error) {
     console.error('Error in APIClient example:', error);
+    return;
   }
+
+  console.log('User from validated endpoint:', data);
+  console.log('Status code:', status);
 }
 
 // ===== PART 3: Router API usage =====
@@ -171,33 +179,46 @@ async function routerExample() {
   // Create a type-safe API client
   const api = createClientAPI(router);
 
-  try {
-    // Use the API
-    const { data: user, error: userError, status: userStatus } = await api.users.get();
-    console.log('User from router API:', user);
-    console.log('Status code:', userStatus);
+  const { data: user, error: userError, status: userStatus } = await api.users.get();
 
-    // The newPost variable will have its type inferred from the postResponseSchema
-    // TypeScript knows it has id, title, body, and userId properties
-    const response = await api.posts.create({
-      title: 'foo',
-      body: 'bar',
-      userId: 1,
-    });
-
-    const { data: newPost, error: postError, status: postStatus } = response;
-
-    // We can access the properties directly because TypeScript knows the type
-    console.log('New post from router API:', {
-      id: newPost?.id, // TypeScript knows this is a number
-      title: newPost?.title, // TypeScript knows this is a string
-      body: newPost?.body, // TypeScript knows this is a string
-      userId: newPost?.userId, // TypeScript knows this is a number
-    });
-    console.log('Status code:', postStatus);
-  } catch (error) {
-    console.error('Error in router example:', error);
+  if (userError) {
+    console.error('Error in router example:', userError);
+    return;
   }
+
+  console.log('User from router API:', user);
+  console.log('Status code:', userStatus);
+
+  // The newPost variable will have its type inferred from the postResponseSchema
+  // TypeScript knows it has id, title, body, and userId properties
+  const response = await api.posts.create({
+    title: 'foo',
+    body: 'bar',
+    userId: 1,
+  });
+
+  const { data: newPost, error: postError, status: postStatus } = response;
+
+  // We can access the properties directly because TypeScript knows the type
+  console.log('New post from router API:', {
+    id: newPost?.id, // TypeScript knows this is a number
+    title: newPost?.title, // TypeScript knows this is a string
+    body: newPost?.body, // TypeScript knows this is a string
+    userId: newPost?.userId, // TypeScript knows this is a number
+  });
+
+  if (postError) {
+    console.error('Error in router example:', postError);
+    return;
+  }
+
+  console.log('New post from router API:', {
+    id: newPost?.id, // TypeScript knows this is a number
+    title: newPost?.title, // TypeScript knows this is a string
+    body: newPost?.body, // TypeScript knows this is a string
+    userId: newPost?.userId, // TypeScript knows this is a number
+  });
+  console.log('Status code:', postStatus);
 }
 
 // Run all examples
