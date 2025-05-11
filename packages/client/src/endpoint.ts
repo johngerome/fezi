@@ -127,12 +127,13 @@ export class Endpoint<TInput = any, TOutput = any> {
     params?: Record<string, string | number | boolean | null | undefined>
   ): Promise<EndpointResponse<TOutput>> {
     let validatedInput: TInput | undefined = input;
+
     if (input && this.inputSchema) {
       validatedInput = validateWithSchema(input, this.inputSchema, true);
     }
 
     try {
-      const response = await this.client.execute({
+      const response = await this.client.execute<TInput, TOutput>({
         ...this.config,
         body: validatedInput,
         params,

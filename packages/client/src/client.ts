@@ -95,7 +95,7 @@ export class APIClient {
    * Create a new route with the given configuration
    * @param config Route configuration including method and path
    */
-  route<TInput = any, TOutput = any>(config: RequestConfig): Endpoint<TInput, TOutput> {
+  route<TInput = unknown, TOutput = unknown>(config: RequestConfig): Endpoint<TInput, TOutput> {
     const endpoint = new Endpoint<TInput, TOutput>(this);
 
     if (config.path) {
@@ -121,12 +121,12 @@ export class APIClient {
    * Execute a request using the provided config
    * @internal This is used by Endpoint and shouldn't be called directly
    */
-  async execute(
+  async execute<TInput, TOutput>(
     config: RequestConfig & {
-      body?: any;
-      params?: Record<string, string | number | boolean | null | undefined>;
+      body?: TInput;
+      params?: Record<PropertyKey, string | number | boolean | null | undefined>;
     }
-  ): Promise<FeziResponse<any>> {
+  ): Promise<FeziResponse<TOutput>> {
     const url = this.buildUrl(config);
     const options = this.buildOptions(config);
 
