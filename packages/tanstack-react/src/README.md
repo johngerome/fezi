@@ -1,6 +1,6 @@
-# TanStack Query Integration for zimfetch
+# TanStack Query Integration for Fezi
 
-This module provides integration between zimfetch and [TanStack Query](https://tanstack.com/query/latest) (formerly React Query), allowing you to easily create query and mutation hooks from your zimfetch endpoints.
+This module provides integration between Fezi and [TanStack Query](https://tanstack.com/query/latest) (formerly React Query), allowing you to easily create query and mutation hooks from your Fezi endpoints.
 
 ## Installation
 
@@ -22,11 +22,11 @@ pnpm add @tanstack/react-query
 ### Basic Usage
 
 ```typescript
-import { APIClient } from '@johngerome/zimfetch';
-import { createTanStackAPI } from '@johngerome/zimfetch/tanstack/react';
+import { APIClient } from '@fezi/client';
+import { createTanStackAPI } from '@fezi/tanstack-react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 
-// Create a zimfetch client
+// Create a Fezi client
 const client = new APIClient({
   url: 'https://api.example.com',
 });
@@ -50,7 +50,7 @@ const api = createTanStackAPI(router);
 function UsersComponent() {
   // For queries (GET)
   const usersQuery = useQuery(api.users.get.queryOptions());
-  
+
   // For mutations (POST, PUT, DELETE)
   const { mutate } = useMutation(api.users.post.mutationOptions({
     // Mutation options go here
@@ -61,18 +61,18 @@ function UsersComponent() {
       queryClient.invalidateQueries({ queryKey: ['users'] });
     },
   }));
-  
+
   // Then use the mutate function with your payload
   mutate({ name: 'john' });
-  
+
   if (usersQuery.isPending) {
     return <div>Loading...</div>;
   }
-  
+
   if (usersQuery.isError) {
     return <div>Error: {usersQuery.error.message}</div>;
   }
-  
+
   return (
     <div>
       <ul>
@@ -80,7 +80,7 @@ function UsersComponent() {
           <li key={user.id}>{user.name}</li>
         ))}
       </ul>
-      <button 
+      <button
         onClick={() => createUserMutation.mutate({ name: 'New User' })}
         disabled={createUserMutation.isPending}
       >
@@ -109,9 +109,7 @@ const userQuery = useQuery(
 
 ```typescript
 // 1. Basic usage
-const createUserMutation = useMutation(
-  api.users.post.mutationOptions()
-);
+const createUserMutation = useMutation(api.users.post.mutationOptions());
 
 createUserMutation.mutate({ name: 'John Doe' });
 
@@ -147,9 +145,9 @@ createUser({ name: 'John Doe' });
 
 ### `createTanStackAPI(router, path?)`
 
-Creates a TanStack Query API from a zimfetch router.
+Creates a TanStack Query API from a Fezi router.
 
-- `router`: The zimfetch router to enhance
+- `router`: The Fezi router to enhance
 - `path` (optional): Base path for query keys (default: `[]`)
 
 Returns a router with TanStack Query capabilities.
