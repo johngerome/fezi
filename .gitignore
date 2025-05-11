@@ -3,7 +3,12 @@ node_modules/
 
 # Build outputs
 dist/
+build/
+lib/
+out/
 coverage/
+.coverage/
+*.tsbuildinfo
 
 # Logs
 logs/
@@ -12,10 +17,20 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+lerna-debug.log*
+
+# Package managers
+.npm/
+.pnpm-store/
+.yarn/
+.pnpm-debug.log*
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
 .idea/
 *.suo
 *.ntvs*
@@ -33,3 +48,26 @@ Thumbs.db
 .env.development.local
 .env.test.local
 .env.production.local
+
+# Turborepo
+.turbo/
+
+# Changesets
+.changeset/*.md
+!.changeset/config.json
+
+# Cache directories
+.cache/
+.eslintcache
+.stylelintcache
+
+# Test artifacts
+**/__snapshots__/
+*.snap
+
+# Temporary files
+*.tmp
+*.temp
+
+# Local files that should not be committed
+*.local

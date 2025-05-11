@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Initial implementation of `@johngerome/zimfetch` function
+- Initial implementation of `@johngerome/fezi` function
 - Support for timeout, retries, and automatic JSON parsing
 - TypeScript type definitions
 - Comprehensive test suite

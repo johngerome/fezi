@@ -1,6 +1,6 @@
-# Contributing to ZimFetch
+# Contributing to Fezi
 
-Thank you for considering contributing to ZimFetch! This document outlines the process for contributing to this project.
+Thank you for considering contributing to Fezi! This document outlines the process for contributing to this project.
 
 ## Development Process
 
@@ -14,8 +14,8 @@ Thank you for considering contributing to ZimFetch! This document outlines the p
 
 ```bash
 # Clone your fork
-git clone https://github.com/YOUR_USERNAME/zimfetch.git
-cd zimfetch
+git clone https://github.com/YOUR_USERNAME/fezi.git
+cd fezi
 
 # Install dependencies
 pnpm install

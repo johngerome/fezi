@@ -1,40 +1,48 @@
-# ZimFetch
+# Fezi
 
-ZimFetch is a lightweight and versatile fetch wrapper designed for both browser and Node.js environments, providing a simple and intuitive API for all your HTTP needs. With a TypeScript-first approach, ZimFetch ensures full type definitions for enhanced safety and autocompletion, making it an ideal choice for developers who prioritize code quality and maintainability.
+Fezi is a light and flexible fetch wrapper for both browser and Node.js environments, offering a clean and easy-to-use API for all your HTTP requirements. With a TypeScript-first philosophy, Fezi provides complete type definitions for improved safety and autocompletion, making it the perfect option for developers who value code quality and maintainability.
+
+## Packages
+
+This monorepo contains the following packages:
+
+- [@fezi/client](./packages/client) - Core fetch wrapper library
+- [@fezi/tanstack-react](./packages/tanstack-react) - TanStack Query (React) integration
 
 ## Installation
 
 ```bash
-# npm
-npm install @johngerome/zimfetch
+# Core client
+npm install @fezi/client
 
-# yarn
-yarn add @johngerome/zimfetch
+# TanStack Query (React) integration
+npm install @fezi/tanstack-react @tanstack/react-query
 
-# pnpm
-pnpm add @johngerome/zimfetch
+# Or using yarn/pnpm
+yarn add @fezi/client
+pnpm add @fezi/client
 ```
 
 ## Features
 
-- **TypeScript-first**: Full type definitions for safety and autocompletion.
-- **Universal**: Works in both browser and Node.js environments.
-- **Simple API**: Minimal, intuitive API for common HTTP operations.
-- **Automatic JSON parsing**: Automatically parses JSON responses when possible.
-- **Schema validation**: Optional input/output validation with Zod, Yup, Joi, or custom schemas.
-- **Error handling**: Consistent error objects with HTTP status, response data, and request details.
+- **TypeScript-first**: Complete type definitions for safety and autocompletion.
+- **Universal**: Compatible with both browser and Node.js environments.
+- **Simple API**: Simple, intuitive API for standard HTTP operations.
+- **Automatic JSON parsing**: Parsed JSON responses automatically when possible.
+- **Schema validation**: Input/output validation optionally using Zod, Yup, Joi, or custom schemas.
+- **Error handling**: Uniform error objects with HTTP status, response data, and request information.
 - **Request timeouts**: Abort requests after a configurable timeout.
-- **Request cancellation**: Supports AbortController for manual cancellation.
-- **Custom headers and base URL**: Easily set default headers and a base URL for all requests.
-- **Composable endpoints and routers**: Build type-safe API clients with endpoint and router definitions.
-- **Extensible**: Easily integrate with validation libraries and custom logic.
-- **Promise-based**: Modern async/await support.
-- **Lightweight**: Minimal dependencies and small bundle size.
+- **Manual cancellation**: Supports AbortController for manual termination.
+- **Default headers and base URL**: Simple setting of default headers and a base URL to use across all requests.
+- **Composable routers and endpoints**: Create type-safe API clients using endpoint and router definitions.
+- **Extensible**: Simple integration with validation libraries and bespoke logic.
+- **Promise-based**: Updated async/await support.
+- **Lightweight**: Few dependencies and small bundle size.
 
 ## Usage
 
 ```typescript
-import { createClientAPI } from '@johngerome/zimfetch';
+import { APIClient } from '@fezi/client';
 
 const router = {
   users: {
@@ -60,7 +68,7 @@ const newPost = await api.posts.create({ title: 'foo', body: 'bar', userId: 1 })
 
 ## API Reference
 
-### `@johngerome/zimfetch(url, options?)`
+### `APIClient(url, options?)`
 
 #### Parameters
 
@@ -87,7 +95,7 @@ Promise that resolves to a response object with:
 
 ## Inspiration
 
-ZimFetch draws inspiration from these excellent projects:
+Fezi draws inspiration from these excellent projects:
 
 - [oRPC](https://github.com/unnoq/orpc) - Type-safe RPC framework for TypeScript
 - [Hyper Fetch](https://hyperfetch.bettertyped.com/) - Modern data fetching library for TypeScript

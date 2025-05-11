@@ -1,15 +1,13 @@
 /**
- * Basic usage examples for zimfetch
+ * Basic usage examples for fezi
  *
- * This file demonstrates various ways to use the zimfetch library
+ * This file demonstrates various ways to use the fezi library
  * including APIClient and type-safe router APIs.
  */
 import { z } from 'zod';
 import { APIClient, createClientAPI } from '../src';
 
-// ===== PART 1: Basic APIClient usage =====
 
-// Basic GET request
 async function basicGet() {
   const client = new APIClient({
     url: 'https://jsonplaceholder.typicode.com',
@@ -28,7 +26,6 @@ async function basicGet() {
   console.log('Status code:', status);
 }
 
-// POST request with JSON body
 async function postWithJson() {
   const client = new APIClient({
     url: 'https://jsonplaceholder.typicode.com',
@@ -53,7 +50,6 @@ async function postWithJson() {
   console.log('Status code:', status);
 }
 
-// Request with custom headers
 async function requestWithHeaders() {
   const client = new APIClient({
     url: 'https://jsonplaceholder.typicode.com',
@@ -76,7 +72,6 @@ async function requestWithHeaders() {
   console.log('Status code:', status);
 }
 
-// Request with timeout
 async function requestWithTimeout() {
   const client = new APIClient({
     url: 'https://jsonplaceholder.typicode.com',
@@ -96,9 +91,6 @@ async function requestWithTimeout() {
   console.log('Status code:', status);
 }
 
-// ===== PART 2: APIClient usage =====
-
-// Simple schema validation example (using plain objects for simplicity)
 const userSchema = z.object({
   id: z.number(),
   name: z.string(),
@@ -129,7 +121,6 @@ async function apiClientExample() {
   console.log('Status code:', status);
 }
 
-// ===== PART 3: Router API usage =====
 
 async function routerExample() {
   console.log('\n===== Router API Example =====');
@@ -213,11 +204,12 @@ async function routerExample() {
   console.log('Status code:', postStatus);
 }
 
-// Run all examples
+/**
+ * Run all examples
+ */
 async function runExamples() {
-  console.log('Running zimfetch examples...\n');
+  console.log('Running fezi examples...\n');
 
-  // Part 1: Basic fetch wrapper
   console.log('===== Basic Fetch Wrapper Examples =====');
   await basicGet();
   console.log('\n---\n');
@@ -230,14 +222,11 @@ async function runExamples() {
 
   await requestWithTimeout();
 
-  // Part 2: APIClient
   await apiClientExample();
 
-  // Part 3: Router API
   await routerExample();
 
   console.log('\n===== All examples completed =====');
 }
 
-// Run all examples
 runExamples().catch(console.error);
