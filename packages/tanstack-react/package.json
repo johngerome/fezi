@@ -1,6 +1,6 @@
 {
   "name": "@fezi/tanstack-react",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "TanStack Query (React) integration for fezi",
   "author": "",
   "license": "MIT",
