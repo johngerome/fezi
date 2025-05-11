@@ -1,6 +1,6 @@
 # @fezi/client
 
-A lightweight fetch wrapper for browser and Node.js.
+Type-Safe Fetching Made Easy
 
 ## Installation
 
@@ -12,35 +12,60 @@ yarn add @fezi/client
 pnpm add @fezi/client
 ```
 
-## Usage
+## Basic Usage
 
 ```typescript
 import { createClientAPI, APIClient } from '@fezi/client';
+import { z } from 'zod';
 
 // Create a client
 const client = new APIClient({
   baseURL: 'https://api.example.com',
-});
+  headers() {
+    const token = localStorage.getItem('token');
 
-// Create a router
-const api = createClientAPI(client, {
-  users: {
-    get: { method: 'GET', path: '/users' },
-    getById: { method: 'GET', path: '/users/:id' },
-    create: { method: 'POST', path: '/users' },
+    return {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    };
   },
 });
 
-// Use the API
-const getUsers = async () => {
-  const response = await api.users.get.execute();
-  return response.data;
+const userSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  email: z.string().email(),
+});
+
+// Define routes
+const routes = {
+  v1: {
+    users: {
+      get: client.route({ path: '/users' }).output(z.array(userSchema)),
+      getById: client.route({ path: '/users/:id' }).output(userSchema),
+      create: client.route({ path: '/users', method: 'POST' }).input(userSchema.omit({ id: true })),
+    },
+  },
 };
 
-const createUser = async (userData) => {
-  const response = await api.users.create.execute(userData);
-  return response.data;
-};
+// Create a router
+const api = createClientAPI(client, routes);
+
+// Use the API
+const getUsers = await api.v1.users.get.execute();
+// getUsers.data
+// getUsers.error
+
+const getById = await api.v1.users.getById.execute({ id: 1 });
+// getById.data
+// getById.error
+
+const createUser = await api.v1.users.create.execute({
+  name: 'John Doe',
+  email: 'john.doe@example.com',
+});
+// createUser.data
+// createUser.error
 ```
 
 ## License

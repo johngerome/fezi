@@ -25,27 +25,43 @@ import { useQuery, useMutation } from '@tanstack/react-query';
 // Create a client
 const client = new APIClient({
   baseURL: 'https://api.example.com',
-});
+  headers() {
+    const token = localStorage.getItem('token');
 
-// Create a router
-const router = createClientAPI(client, {
-  users: {
-    get: { method: 'GET', path: '/users' },
-    getById: { method: 'GET', path: '/users/:id' },
-    create: { method: 'POST', path: '/users' },
+    return {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    };
   },
 });
 
+const userSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  email: z.string().email(),
+});
+
+// Define routes
+const routes = {
+  v1: {
+    users: {
+      get: client.route({ path: '/users' }).output(z.array(userSchema)),
+      getById: client.route({ path: '/users/:id' }).output(userSchema),
+      create: client.route({ path: '/users', method: 'POST' }).input(userSchema.omit({ id: true })),
+    },
+  },
+};
+
 // Create a TanStack Query API
-const api = createTanStackAPI(router);
+const api = createTanStackAPI(client, routes);
 
 // Use in a React component
 function UsersList() {
   // For queries (GET)
-  const query = useQuery(api.users.get.queryOptions());
+  const query = useQuery(api.v1.users.get.queryOptions());
 
   // For mutations (POST, PUT, DELETE)
-  const mutation = useMutation(api.users.create.mutationOptions());
+  const mutation = useMutation(api.v1.users.create.mutationOptions());
 
   // Use the query and mutation as needed
   return (
