@@ -40,9 +40,7 @@ const routerDefinition = {
       .route({ method: 'PUT', path: '/todos/:id' })
       .input(todoUpdateSchema)
       .output(todoResponseSchema),
-    delete: client
-      .route({ method: 'DELETE', path: '/todos/:id' })
-      .output(z.object({})),
+    delete: client.route({ method: 'DELETE', path: '/todos/:id' }).output(z.object({})),
   },
 };
 
