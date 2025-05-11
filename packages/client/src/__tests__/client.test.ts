@@ -204,7 +204,7 @@ describe('APIClient', () => {
       );
     });
 
-    it('should handle errors and throw FeziError', async () => {
+    it('should return error payload for HTTP errors when no output schema is defined', async () => {
       const errorData = { error: 'Not found' };
       mockFetch.mockResolvedValueOnce(
         mockResponse(404, errorData, {
