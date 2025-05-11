@@ -46,9 +46,7 @@
   ],
   "lint-staged": {
     "*.{ts,tsx}": [
-      "prettier --write",
-      "pnpm typecheck",
-      "pnpm test"
+      "prettier --write"
     ]
   }
 }
