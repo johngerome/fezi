@@ -42,7 +42,7 @@ const routerDefinition = {
       .output(todoResponseSchema),
     delete: client
       .route({ method: 'DELETE', path: '/todos/:id' })
-      .output(todoResponseSchema.array()),
+      .output(z.object({})),
   },
 };
 
