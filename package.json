@@ -26,12 +26,16 @@
     "typecheck:all": "turbo run typecheck",
     "typecheck:watch": "turbo run typecheck:watch",
     "clean": "turbo run clean && rm -rf node_modules",
-    "release": "changeset publish"
+    "release": "changeset publish",
+    "prepare": "husky",
+    "lint-staged": "lint-staged"
   },
   "packageManager": "pnpm@10.8.1",
   "devDependencies": {
     "@changesets/cli": "^2.27.1",
     "@types/node": "^22.15.17",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.0.0",
     "prettier": "^3.5.3",
     "turbo": "^1.10.16",
     "typescript": "^5.0.0"
@@ -39,5 +43,12 @@
   "workspaces": [
     "packages/*",
     "examples/*"
-  ]
+  ],
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "prettier --write",
+      "pnpm typecheck",
+      "pnpm test"
+    ]
+  }
 }
