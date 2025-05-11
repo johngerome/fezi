@@ -24,17 +24,12 @@
     "format": "prettier --write \"packages/**/*.{ts,tsx}\" \"examples/**/*.{ts,tsx}\"",
     "lint": "prettier --check \"packages/**/*.{ts,tsx}\" \"examples/**/*.{ts,tsx}\"",
     "typecheck": "turbo run typecheck",
-    "typecheck:all": "turbo run typecheck",
-    "typecheck:watch": "turbo run typecheck:watch",
     "clean": "turbo run clean && rm -rf node_modules",
-    "packages:bump": "pnpm dlx bumpp -r",
-    "packages:publish": "pnpm run build:packages && pnpm --filter='./packages/*' publish -r --access=public",
-    "packages:publish:commit": "pnpm run build:packages && pnpm dlx pkg-pr-new publish './packages/*' --pnpm --compact --template './playgrounds/*'",
-    "packages:changelog:github": "pnpm dlx changelogithub --draft"
+    "release": "pnpm dlx bumpp --execute=\"pnpm run release:prepare\" --all",
+    "release:prepare": "pnpm run lint && pnpm run test && pnpm run build:packages && pnpm run typecheck"
   },
   "packageManager": "pnpm@10.8.1",
   "devDependencies": {
-    "@changesets/cli": "^2.27.1",
     "@types/node": "^22.15.17",
     "prettier": "^3.5.3",
     "turbo": "^1.10.16",

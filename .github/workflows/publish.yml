@@ -29,15 +29,15 @@ jobs:
 
       - run: pnpm install
 
-      - run: npx changelogithub --no-group
+      - run: npx changelogithub --draft
         continue-on-error: true
         env:
           GITHUB_TOKEN: ${{secrets.GH_TOKEN}}
 
-      - run: pnpm run update:full
+      - run: pnpm run build:packages
 
-      - run: pnpm run publish:ci
+      - name: Publish to npm
+        run: pnpm publish --no-git-checks --provenance
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-          NPM_CONFIG_PROVENANCE: true
           NODE_OPTIONS: --max-old-space-size=6144
