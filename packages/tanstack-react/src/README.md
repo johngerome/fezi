@@ -24,9 +24,7 @@ pnpm add @fezi/client @fezi/tanstack-react
 ```typescript
 import { APIClient } from '@fezi/client';
 import { createTanStackAPI } from '@fezi/tanstack-react';
-import { useQueryClient } from '@tanstack/react-query'; 
-
-const queryClient = useQueryClient();  
+import { useQuery, useMutation } from '@tanstack/react-query'; 
 
 // Create a Fezi client
 const client = new APIClient({
@@ -67,7 +65,7 @@ function UsersComponent() {
   // Then use the mutate function with your payload
   createUserMutation.mutate({ name: 'john' });
 
-  if (usersQuery.isPending) {
+  if (usersQuery.isLoading) {
     return <div>Loading...</div>;
   }
 
@@ -116,6 +114,7 @@ const createUserMutation = useMutation(api.users.post.mutationOptions());
 createUserMutation.mutate({ name: 'John Doe' });
 
 // 2. With mutation options
+const queryClient = useQueryClient(); 
 const createUserMutation = useMutation(
   api.users.post.mutationOptions({
     mutationKey: ['users', 'create'],
@@ -129,6 +128,7 @@ const createUserMutation = useMutation(
 createUserMutation.mutate({ name: 'John Doe' });
 
 // 3. Destructuring the mutate function (recommended)
+const queryClient = useQueryClient(); 
 const { mutate: createUser } = useMutation(
   api.users.post.mutationOptions({
     mutationKey: ['users', 'create'],
