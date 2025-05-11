@@ -145,7 +145,7 @@ export class APIClient {
    */
   private buildUrl(
     config: RequestConfig & {
-      params?: Record<string, string | number | boolean | null | undefined>;
+      params?: Record<PropertyKey, string | number | boolean | null | undefined>;
     }
   ): string {
     const normalizedUrl = this.options.url.endsWith('/')
