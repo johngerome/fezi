@@ -20,9 +20,13 @@
     "baseUrl": ".",
     "noImplicitAny": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@fezi/client": ["../client/src"]
     }
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "src/example.ts", "src/__tests__/**/*"]
+  "exclude": ["node_modules", "dist", "src/example.ts", "src/__tests__/**/*"],
+  "references": [
+    { "path": "../client" }
+  ]
 }
