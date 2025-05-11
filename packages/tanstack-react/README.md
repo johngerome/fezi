@@ -5,11 +5,14 @@ TanStack Query (React Query) integration for fezi.
 ## Installation
 
 ```bash
-npm install @fezi/tanstack-react @fezi/client @tanstack/react-query
-# or
-yarn add @fezi/tanstack-react @fezi/client @tanstack/react-query
-# or
-pnpm add @fezi/tanstack-react @fezi/client @tanstack/react-query
+# Using npm
+npm install @tanstack/react-query @fezi/client @fezi/tanstack-react
+
+# Using yarn
+yarn add @tanstack/react-query @fezi/client @fezi/tanstack-react
+
+# Using pnpm
+pnpm add @tanstack/react-query @fezi/client @fezi/tanstack-react
 ```
 
 ## Usage
