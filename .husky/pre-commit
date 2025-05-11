@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+
+# Run lint-staged to format files
+pnpm lint-staged
+
+# Run typecheck and tests
+pnpm typecheck
+pnpm test
+pnpm build
