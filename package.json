@@ -26,11 +26,15 @@
     "typecheck": "turbo run typecheck",
     "clean": "turbo run clean && rm -rf node_modules",
     "release": "pnpm dlx bumpp --execute=\"pnpm run release:prepare\" --all",
-    "release:prepare": "pnpm run lint && pnpm run test && pnpm run build:packages && pnpm run typecheck"
+    "release:prepare": "pnpm run lint && pnpm run test && pnpm run build:packages && pnpm run typecheck",
+    "prepare": "husky",
+    "lint-staged": "lint-staged"
   },
   "packageManager": "pnpm@10.8.1",
   "devDependencies": {
     "@types/node": "^22.15.17",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.0.0",
     "prettier": "^3.5.3",
     "turbo": "^1.10.16",
     "typescript": "^5.0.0"
@@ -38,5 +42,10 @@
   "workspaces": [
     "packages/*",
     "examples/*"
-  ]
+  ],
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "prettier --write"
+    ]
+  }
 }
