@@ -17,7 +17,6 @@ const routerDefinition = {
   },
 };
 
-// Create the API with proper typing - no workarounds needed now that the library types are fixed
 const api = createTanStackAPI(routerDefinition);
 
 function App() {
