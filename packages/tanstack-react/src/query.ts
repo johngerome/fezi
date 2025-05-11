@@ -22,7 +22,9 @@ export function enhanceEndpointWithQuery<TInput, TOutput>(
 ): TanStackQueryEndpoint<TInput, TOutput> {
   const enhancedEndpoint = { ...endpoint } as TanStackQueryEndpoint<TInput, TOutput>;
 
-  enhancedEndpoint.queryOptions = function <TQueryKey extends QueryKey = readonly [string, ...unknown[]]>(
+  enhancedEndpoint.queryOptions = function <
+    TQueryKey extends QueryKey = readonly [string, ...unknown[]],
+  >(
     config?: QueryOptionsConfig<TOutput, Error, TQueryKey, TInput>
   ): UseQueryOptions<TOutput, Error, TOutput, TQueryKey> {
     const { input, urlParams, queryKey: customQueryKey, ...rest } = config || {};

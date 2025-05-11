@@ -3,7 +3,6 @@ import { useQuery, useMutation } from '@tanstack/react-query';
 import { APIClient } from '@fezi/client';
 import { createTanStackAPI } from '@fezi/tanstack-react';
 
-
 interface Todo {
   userId: number;
   id: number;
@@ -13,11 +12,9 @@ interface Todo {
 
 type TodoCreationRequest = Omit<Todo, 'id'>;
 
-
 const client = new APIClient({
   url: 'https://jsonplaceholder.typicode.com',
 });
-
 
 const routerDefinition = {
   todos: {
@@ -29,16 +26,13 @@ const routerDefinition = {
   },
 };
 
-
 const api = createTanStackAPI(routerDefinition);
 
 function App() {
   const [todoId, setTodoId] = useState(1);
 
-
   const todosQuery = useQuery(api.todos.get.queryOptions!());
   const todoByIdQuery = useQuery(api.todos.getById.queryOptions!({ urlParams: { id: todoId } }));
-
 
   const createMutation = useMutation(api.todos.create.mutationOptions!());
 

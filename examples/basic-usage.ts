@@ -7,7 +7,6 @@
 import { z } from 'zod';
 import { APIClient, createClientAPI } from '../src';
 
-
 async function basicGet() {
   const client = new APIClient({
     url: 'https://jsonplaceholder.typicode.com',
@@ -120,7 +119,6 @@ async function apiClientExample() {
   console.log('User from validated endpoint:', data);
   console.log('Status code:', status);
 }
-
 
 async function routerExample() {
   console.log('\n===== Router API Example =====');
