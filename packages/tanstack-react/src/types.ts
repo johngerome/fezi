@@ -48,7 +48,7 @@ export interface TanStackEndpoint<TInput, TOutput> extends Endpoint<TInput, TOut
   /**
    * Get query options for this endpoint
    */
-  queryOptions?: <TQueryKey extends QueryKey = [string]>(
+  queryOptions: <TQueryKey extends QueryKey = [string]>(
     config?: QueryOptionsConfig<TOutput, Error, TQueryKey, TInput>
   ) => UseQueryOptions<TOutput, Error, TOutput, TQueryKey>;
 
@@ -57,7 +57,7 @@ export interface TanStackEndpoint<TInput, TOutput> extends Endpoint<TInput, TOut
    * @param options TanStack Query mutation options (except mutationFn which is provided automatically)
    * @returns Complete mutation options that can be passed directly to useMutation
    */
-  mutationOptions?: <TContext = unknown>(
+  mutationOptions: <TContext = unknown>(
     config?: MutationOptionsConfig<TOutput, Error, TInput, TContext>
   ) => UseMutationOptions<TOutput, Error, TInput, TContext>;
 

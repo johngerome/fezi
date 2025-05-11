@@ -3,47 +3,39 @@ import { useQuery, useMutation } from '@tanstack/react-query';
 import { APIClient } from '@fezi/client';
 import { createTanStackAPI } from '@fezi/tanstack-react';
 
-interface Todo {
-  userId: number;
-  id: number;
-  title: string;
-  completed: boolean;
-}
-
-type TodoCreationRequest = Omit<Todo, 'id'>;
-
 const client = new APIClient({
   url: 'https://jsonplaceholder.typicode.com',
 });
 
 const routerDefinition = {
   todos: {
-    get: client.route<void, Todo[]>({ method: 'GET', path: '/todos' }),
-    getById: client.route<void, Todo>({ method: 'GET', path: '/todos/:id' }),
-    create: client.route<TodoCreationRequest, Todo>({ method: 'POST', path: '/todos' }),
-    update: client.route<Todo, Todo>({ method: 'PUT', path: '/todos/:id' }),
-    delete: client.route<void, {}>({ method: 'DELETE', path: '/todos/:id' }),
+    get: client.route({ method: 'GET', path: '/todos' }),
+    getById: client.route({ method: 'GET', path: '/todos/:id' }),
+    create: client.route({ method: 'POST', path: '/todos' }),
+    update: client.route({ method: 'PUT', path: '/todos/:id' }),
+    delete: client.route({ method: 'DELETE', path: '/todos/:id' }),
   },
 };
 
+// Create the API with proper typing - no workarounds needed now that the library types are fixed
 const api = createTanStackAPI(routerDefinition);
 
 function App() {
   const [todoId, setTodoId] = useState(1);
 
-  const todosQuery = useQuery(api.todos.get.queryOptions!());
-  const todoByIdQuery = useQuery(api.todos.getById.queryOptions!({ urlParams: { id: todoId } }));
+  const todosQuery = useQuery(api.todos.get.queryOptions());
+  const todoByIdQuery = useQuery(api.todos.getById.queryOptions({ urlParams: { id: todoId } }));
 
-  const createMutation = useMutation(api.todos.create.mutationOptions!());
+  const createMutation = useMutation(api.todos.create.mutationOptions());
 
   const updateMutation = useMutation({
     mutationKey: ['todos', 'update', todoId],
-    ...api.todos.update.mutationOptions!({ urlParams: { id: todoId } }),
+    ...api.todos.update.mutationOptions({ urlParams: { id: todoId } }),
   });
 
   const deleteMutation = useMutation({
     mutationKey: ['todos', 'delete', todoId],
-    ...api.todos.delete.mutationOptions!({ urlParams: { id: todoId } }),
+    ...api.todos.delete.mutationOptions({ urlParams: { id: todoId } }),
   });
 
   const handleCreateTodo = () => {
