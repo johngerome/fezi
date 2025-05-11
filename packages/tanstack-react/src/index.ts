@@ -11,6 +11,8 @@ import './mutation';
 import { QueryKey, UseQueryOptions, UseMutationOptions } from '@tanstack/react-query';
 import { Endpoint } from '@fezi/client';
 
+import { toError } from './utils';
+
 import type {
   QueryOptionsConfig,
   MutationOptionsConfig,
@@ -44,21 +46,7 @@ function enhanceEndpoint<TInput, TOutput>(
       queryKey: customQueryKey ?? (path as QueryKey as TQueryKey),
       queryFn: async (): Promise<TOutput> => {
         const result = await endpoint.execute(input, urlParams);
-        if (result.error) {
-          if (result.error instanceof Error) {
-            throw result.error;
-          }
-          let message = 'Unknown query error';
-          if (typeof result.error === 'string') {
-            message = result.error;
-          } else if (
-            result.error &&
-            typeof (result.error as Record<string, unknown>).message === 'string'
-          ) {
-            message = (result.error as Record<string, unknown>).message as string;
-          }
-          throw new Error(message);
-        }
+        if (result.error) throw toError(result.error);
         return result.data as TOutput;
       },
     };
@@ -72,21 +60,7 @@ function enhanceEndpoint<TInput, TOutput>(
       ...tanstackMutationOptions,
       mutationFn: async (variables: TInput): Promise<TOutput> => {
         const result = await endpoint.execute(variables, urlParams);
-        if (result.error) {
-          if (result.error instanceof Error) {
-            throw result.error;
-          }
-          let message = 'Unknown mutation error';
-          if (typeof result.error === 'string') {
-            message = result.error;
-          } else if (
-            result.error &&
-            typeof (result.error as Record<string, unknown>).message === 'string'
-          ) {
-            message = (result.error as Record<string, unknown>).message as string;
-          }
-          throw new Error(message);
-        }
+        if (result.error) throw toError(result.error);
         return result.data as TOutput;
       },
     };
