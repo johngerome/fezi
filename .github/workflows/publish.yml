@@ -32,7 +32,7 @@ jobs:
       - run: npx changelogithub --draft
         continue-on-error: true
         env:
-          GITHUB_TOKEN: ${{secrets.GH_TOKEN}}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
       - run: pnpm run build:packages
 
