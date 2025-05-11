@@ -2,6 +2,27 @@ import { useState } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { APIClient } from '@fezi/client';
 import { createTanStackAPI } from '@fezi/tanstack-react';
+import { z } from 'zod';
+
+const todoResponseSchema = z.object({
+  id: z.number(),
+  title: z.string(),
+  completed: z.boolean(),
+  userId: z.number(),
+});
+
+const todoCreateSchema = z.object({
+  title: z.string(),
+  completed: z.boolean(),
+  userId: z.number(),
+});
+
+const todoUpdateSchema = z.object({
+  id: z.number(),
+  title: z.string(),
+  completed: z.boolean(),
+  userId: z.number(),
+});
 
 const client = new APIClient({
   url: 'https://jsonplaceholder.typicode.com',
@@ -9,11 +30,19 @@ const client = new APIClient({
 
 const routerDefinition = {
   todos: {
-    get: client.route({ method: 'GET', path: '/todos' }),
-    getById: client.route({ method: 'GET', path: '/todos/:id' }),
-    create: client.route({ method: 'POST', path: '/todos' }),
-    update: client.route({ method: 'PUT', path: '/todos/:id' }),
-    delete: client.route({ method: 'DELETE', path: '/todos/:id' }),
+    get: client.route({ method: 'GET', path: '/todos' }).output(todoResponseSchema.array()),
+    getById: client.route({ method: 'GET', path: '/todos/:id' }).output(todoResponseSchema),
+    create: client
+      .route({ method: 'POST', path: '/todos' })
+      .input(todoCreateSchema)
+      .output(todoResponseSchema),
+    update: client
+      .route({ method: 'PUT', path: '/todos/:id' })
+      .input(todoUpdateSchema)
+      .output(todoResponseSchema),
+    delete: client
+      .route({ method: 'DELETE', path: '/todos/:id' })
+      .output(todoResponseSchema.array()),
   },
 };
 
