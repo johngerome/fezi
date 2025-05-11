@@ -8,13 +8,13 @@ This feature requires TanStack Query as a peer dependency:
 
 ```bash
 # Using npm
-npm install @tanstack/react-query
+npm install @fezi/client @fezi/tanstack-react
 
 # Using yarn
-yarn add @tanstack/react-query
+yarn add @fezi/client @fezi/tanstack-react
 
 # Using pnpm
-pnpm add @tanstack/react-query
+pnpm add @fezi/client @fezi/tanstack-react
 ```
 
 ## Usage
@@ -24,7 +24,9 @@ pnpm add @tanstack/react-query
 ```typescript
 import { APIClient } from '@fezi/client';
 import { createTanStackAPI } from '@fezi/tanstack-react';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query'; 
+
+const queryClient = useQueryClient();  
 
 // Create a Fezi client
 const client = new APIClient({
@@ -52,7 +54,7 @@ function UsersComponent() {
   const usersQuery = useQuery(api.users.get.queryOptions());
 
   // For mutations (POST, PUT, DELETE)
-  const { mutate } = useMutation(api.users.post.mutationOptions({
+  const createUserMutation = useMutation(api.users.post.mutationOptions({
     // Mutation options go here
     mutationKey: ['users', 'create'],
     onSuccess: (data) => {
@@ -63,7 +65,7 @@ function UsersComponent() {
   }));
 
   // Then use the mutate function with your payload
-  mutate({ name: 'john' });
+  createUserMutation.mutate({ name: 'john' });
 
   if (usersQuery.isPending) {
     return <div>Loading...</div>;
