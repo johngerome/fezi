@@ -4,6 +4,9 @@
   "description": "A lightweight fetch wrapper for browser and Node.js",
   "author": "",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "keywords": [
     "fetch",

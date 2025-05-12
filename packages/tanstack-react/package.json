@@ -4,6 +4,9 @@
   "description": "TanStack Query (React) integration for fezi",
   "author": "",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "keywords": [
     "fetch",
