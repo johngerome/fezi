@@ -1,6 +1,6 @@
 import { Schema, validateWithSchema, createZodSchema, ZodLike, InferZod } from './schema';
 import { APIClient } from './client';
-import { FeziError, EndpointResponse } from './types';
+import { FeziError, EndpointResponse, StandardHeaders } from './types';
 
 /**
  * Request configuration
@@ -20,7 +20,7 @@ export interface RequestConfig {
   /**
    * Additional headers for this request
    */
-  headers?: Record<string, string>;
+  headers?: StandardHeaders;
 }
 
 /**
@@ -101,7 +101,7 @@ export class Endpoint<TInput = any, TOutput = any> {
   /**
    * Set additional headers for this request
    */
-  headers(headers: Record<string, string>): Endpoint<TInput, TOutput> {
+  headers(headers: StandardHeaders): Endpoint<TInput, TOutput> {
     this.config.headers = headers;
     return this;
   }

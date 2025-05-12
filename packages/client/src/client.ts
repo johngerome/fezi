@@ -162,7 +162,7 @@ export class APIClient {
   /**
    * Build request options by merging defaults with request-specific options
    */
-  private async buildOptions(config: RequestConfig & { body?: any }): Promise<FeziOptions> {
+  private async buildOptions(config: RequestConfig & { body?: unknown }): Promise<FeziOptions> {
     const options: FeziOptions = {
       method: config.method || DEFAULT_HTTP_METHOD,
       headers: await this.mergeHeaders(config.headers),
@@ -178,9 +178,7 @@ export class APIClient {
   /**
    * Merge default headers with request-specific headers
    */
-  private async mergeHeaders(
-    requestHeaders?: Record<string, string>
-  ): Promise<Record<string, string>> {
+  private async mergeHeaders(requestHeaders?: StandardHeaders): Promise<StandardHeaders> {
     const defaultHeaders =
       typeof this.options.headers === 'function'
         ? await this.options.headers()

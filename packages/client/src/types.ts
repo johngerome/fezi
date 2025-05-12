@@ -1,4 +1,4 @@
-export type StandardHeaders = Record<string, string | string[] | undefined>;
+export type StandardHeaders = Headers | HeadersInit;
 
 /**
  * Fezi request options interface
@@ -28,7 +28,7 @@ export class FeziError extends Error {
   /**
    * Response headers if available
    */
-  headers?: Headers | StandardHeaders;
+  headers?: StandardHeaders;
 
   /**
    * Original Response object if available
@@ -91,7 +91,7 @@ export interface FeziResponse<T = unknown> {
   /**
    * Response headers
    */
-  headers: Headers | StandardHeaders;
+  headers: StandardHeaders;
 }
 
 /**
