@@ -31,7 +31,7 @@
     "lint": "prettier --check \"packages/**/*.{ts,tsx}\" \"examples/**/*.{ts,tsx}\"",
     "typecheck": "turbo run typecheck",
     "clean": "turbo run clean && rm -rf node_modules",
-    "release": "pnpm dlx bumpp --execute=\"pnpm run release:prepare\" --all",
+    "release": "pnpm dlx bumpp --execute=\"pnpm run release:prepare && pnpm -r exec bumpp --yes --same\" --all --push --tag --commit 'chore: release v%s'",
     "release:prepare": "pnpm run lint && pnpm run test && pnpm run build:packages && pnpm run typecheck",
     "prepare": "husky",
     "lint-staged": "lint-staged"
