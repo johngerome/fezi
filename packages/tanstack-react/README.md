@@ -1,18 +1,16 @@
 # @fezi/tanstack-react
 
+![GitHub Release](https://img.shields.io/github/v/release/johngerome/fezi)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/johngerome/fezi/publish.yml)
+![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/npm/%40fezi%2Ftanstack-react)
+
 TanStack Query (React Query) integration for fezi.
 
 ## Installation
 
 ```bash
-# Using npm
-npm install @tanstack/react-query @fezi/client @fezi/tanstack-react
-
-# Using yarn
-yarn add @tanstack/react-query @fezi/client @fezi/tanstack-react
-
-# Using pnpm
-pnpm add @tanstack/react-query @fezi/client @fezi/tanstack-react
+npm i @tanstack/react-query @fezi/client @fezi/tanstack-react
 ```
 
 ## Usage
@@ -24,13 +22,12 @@ import { useQuery, useMutation } from '@tanstack/react-query';
 
 // Create a client
 const client = new APIClient({
-  baseURL: 'https://api.example.com',
+  url: 'https://api.example.com',
   headers() {
     const token = localStorage.getItem('token');
 
     return {
       Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
     };
   },
 });
@@ -56,7 +53,7 @@ const routes = {
 const api = createTanStackAPI(client, routes);
 
 // Use in a React component
-function UsersList() {
+function App() {
   // For queries (GET)
   const query = useQuery(api.v1.users.get.queryOptions());
 

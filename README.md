@@ -1,27 +1,10 @@
 # Fezi
 
-Fezi is a light and flexible fetch wrapper for both browser and Node.js environments, offering a clean and easy-to-use API for all your HTTP requirements. With a TypeScript-first philosophy, Fezi provides complete type definitions for improved safety and autocompletion, making it the perfect option for developers who value code quality and maintainability.
+![GitHub Release](https://img.shields.io/github/v/release/johngerome/fezi)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/johngerome/fezi/publish.yml)
 
-## Packages
-
-This monorepo contains the following packages:
-
-- [@fezi/client](./packages/client) - Core fetch wrapper library
-- [@fezi/tanstack-react](./packages/tanstack-react) - TanStack Query (React) integration
-
-## Installation
-
-```bash
-# Core client
-npm install @fezi/client
-
-# TanStack Query (React) integration
-npm install @fezi/tanstack-react @tanstack/react-query
-
-# Or using yarn/pnpm
-yarn add @fezi/client
-pnpm add @fezi/client
-```
+Fezi is a light and flexible fetch wrapper for both browser and Node.js environments, offering a clean and easy-to-use API for all your HTTP requirements. With a TypeScript-first philosophy, Fezi provides complete type definitions for improved safety and autocompletion.
 
 ## Features
 
@@ -35,14 +18,31 @@ pnpm add @fezi/client
 - **Composable routers and endpoints**: Create type-safe API clients using endpoint and router definitions.
 - **Extensible**: Simple integration with validation libraries and bespoke logic.
 
-## Usage
+## Installation
+
+```bash
+# Core client
+npm i @fezi/client
+
+# TanStack Query (React) integration
+npm i @fezi/tanstack-react @tanstack/react-query
+```
+
+## Basic Usage
 
 ```typescript
-import { APIClient } from '@fezi/client';
+import { APIClient, createClientAPI } from '@fezi/client';
+import { z } from 'zod';
 
-const router = {
+const client = new APIClient({
+  url: 'https://api.example.com',
+});
+
+const routes = {
   users: {
-    get: client.route({ method: 'GET', path: '/users/1' }).output(userSchema),
+    get: client
+      .route({ method: 'GET', path: '/users/1' })
+      .output(z.object({ id: z.number(), name: z.string() })),
   },
   posts: {
     create: client
@@ -54,13 +54,13 @@ const router = {
   },
 };
 
-const api = createClientAPI(router);
+const api = createClientAPI(routes);
 
 const user = await api.users.get();
 const newPost = await api.posts.create({ title: 'foo', body: 'bar', userId: 1 });
 ```
 
-// For more advanced examples, see the `examples/` directory in the repo.
+For more advanced examples, see the `examples/` directory in the repo.
 
 ## API Reference
 

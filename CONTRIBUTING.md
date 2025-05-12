@@ -1,76 +1,46 @@
 # Contributing to Fezi
 
-Thank you for considering contributing to Fezi! This document outlines the process for contributing to this project.
+Thanks for your interest in contributing to **Fezi**! 🎉 This guide will walk you through the process of making changes and getting them merged.
 
-## Development Process
+## 🚀 Development Workflow
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'feat: add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+1. Fork this repository.
+2. Create a feature or fix branch (`feat/your-feature` or `fix/your-bug`).
+3. Make your changes and **build + test** before committing.
+4. Open a **Pull Request** targeting the `main` branch.
 
-## Setup Development Environment
+## ✅ Commit Message Format
 
-```bash
-# Clone your fork
-git clone https://github.com/YOUR_USERNAME/fezi.git
-cd fezi
+We follow the [Conventional Commits](https://gist.github.com/johngerome/814554855beea7d4afc740994ec3972f) standard. Some examples:
 
-# Install dependencies
-pnpm install
+- `feat(api): add user authentication`
+- `fix(cli): handle empty config files`
+- `chore(deps): update dependencies`
 
-# Run tests
-pnpm test
+Use clear, meaningful messages — it helps keep our history readable.
 
-# Build the package
-pnpm build
+## 📦 Pull Request Guidelines
 
-# Run in development mode (with watch)
-pnpm dev
-```
+When opening a PR:
 
-## Commit Message Guidelines
+- **Title:** Use a one-line summary in Conventional Commits format.
+- **Description:** Include:
+  - A clear overview of what the PR changes
+  - Why the change is necessary
+  - Any relevant issues/tickets (e.g., `Closes #123`)
+- It's totally fine to have multiple small commits — we'll squash on merge.
+- Make sure all tests pass before requesting review.
 
-We follow the [Conventional Commits](https://www.conventionalcommits.org/) specification for our commit messages:
+## 🧹 Code Style & Quality
 
-- `feat`: A new feature
-- `fix`: A bug fix
-- `docs`: Documentation only changes
-- `style`: Changes that do not affect the meaning of the code
-- `refactor`: A code change that neither fixes a bug nor adds a feature
-- `perf`: A code change that improves performance
-- `test`: Adding missing tests or correcting existing tests
-- `chore`: Changes to the build process or auxiliary tools and libraries
+We use automated checks for:
 
-## Pull Request Process
+- **Formatting**
+- **Linting**
+- **Type checking**
 
-1. Ensure any install or build dependencies are removed before the end of the layer when doing a build
-2. Update the README.md with details of changes to the interface, if applicable
-3. The versioning scheme we use is [SemVer](http://semver.org/)
-4. You may merge the Pull Request once you have the sign-off of another developer
+These run automatically on commit. If something fails, fix it up before pushing!
 
-## Code Style
+## 📄 License
 
-We use Prettier for code formatting. Please ensure your code is formatted before submitting:
-
-```bash
-pnpm format
-```
-
-## Running Tests
-
-```bash
-# Run tests once
-pnpm test
-
-# Run tests in watch mode
-pnpm test:watch
-
-# Run tests with coverage
-pnpm test:coverage
-```
-
-## License
-
-By contributing, you agree that your contributions will be licensed under the project's MIT License.
+By submitting a contribution, you agree that your work will be licensed under the [MIT License](./LICENSE) of this project.
