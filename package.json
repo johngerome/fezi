@@ -4,6 +4,10 @@
   "description": "A lightweight fetch wrapper for browser and Node.js",
   "author": "",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/johngerome/fezi"
+  },
   "publishConfig": {
     "access": "public"
   },
