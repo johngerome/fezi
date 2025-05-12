@@ -48,7 +48,6 @@ describe('APIClient', () => {
     it('should merge default options with provided options', () => {
       const client = new APIClient({
         url: 'https://api.example.com',
-        timeout: 5000,
         headers: { 'X-Custom': 'value' },
       });
       expect(client).toBeInstanceOf(APIClient);
@@ -61,7 +60,6 @@ describe('APIClient', () => {
         path: '/users',
         method: 'GET',
         headers: { 'X-Custom': 'value' },
-        timeout: 5000,
       });
 
       expect(endpoint).toBeDefined();
@@ -178,10 +176,9 @@ describe('APIClient', () => {
       );
     });
 
-    it('should handle basePath correctly', async () => {
-      const clientWithBasePath = new APIClient({
-        url: 'https://api.example.com',
-        basePath: '/v1',
+    it('should handle URL with path prefix correctly', async () => {
+      const clientWithPathPrefix = new APIClient({
+        url: 'https://api.example.com/v1',
       });
 
       const responseData = { id: 1, name: 'Test User' };
@@ -191,7 +188,7 @@ describe('APIClient', () => {
         })
       );
 
-      const endpoint = clientWithBasePath.route({
+      const endpoint = clientWithPathPrefix.route({
         path: '/users/1',
         method: 'GET',
       });
@@ -239,41 +236,6 @@ describe('APIClient', () => {
       expect(data).toBeNull();
       expect(status).toBe(500);
       expect(error).toBeInstanceOf(FeziError);
-    });
-
-    it('should handle timeout', async () => {
-      // We'll use a real AbortController to test timeout
-      // but we need to mock the fetch implementation
-      vi.useFakeTimers();
-
-      mockFetch.mockImplementationOnce((_url, options) => {
-        return new Promise((resolve, reject) => {
-          // This promise will never resolve unless aborted
-          options.signal.addEventListener('abort', () => {
-            reject(new DOMException('The operation was aborted', 'AbortError'));
-          });
-        });
-      });
-
-      const endpoint = client.route({
-        path: '/users/1',
-        method: 'GET',
-        timeout: 1000,
-      });
-
-      const executePromise = endpoint.execute();
-
-      // Fast-forward time
-      vi.advanceTimersByTime(1500);
-
-      const { data, error, status } = await executePromise;
-
-      expect(data).toBeNull();
-      expect(status).toBe(500);
-      expect(error).toBeInstanceOf(FeziError);
-      expect(error!.message).toBe('The operation was aborted');
-
-      vi.useRealTimers();
     });
   });
 
@@ -330,6 +292,38 @@ describe('APIClient', () => {
           headers: expect.objectContaining({
             'X-API-Key': 'test-key',
             'X-Request-Specific': 'value',
+          }),
+        })
+      );
+    });
+
+    it('should support promise-based headers at client level', async () => {
+      const clientWithPromiseHeaders = new APIClient({
+        url: 'https://api.example.com',
+        headers: async () => {
+          await Promise.resolve(); // Simulate async operation
+          return { 'X-Async-Client': 'async-client-value' };
+        },
+      });
+
+      const responseData = { id: 1 };
+      mockFetch.mockResolvedValueOnce(
+        mockResponse(200, responseData, { 'content-type': 'application/json' })
+      );
+
+      const endpoint = clientWithPromiseHeaders.route({
+        path: '/test-async-client',
+        method: 'GET',
+      });
+
+      await endpoint.execute();
+
+      expect(mockFetch).toHaveBeenCalledWith(
+        'https://api.example.com/test-async-client',
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            'X-Async-Client': 'async-client-value',
+            'Content-Type': 'application/json', // Default from execute
           }),
         })
       );

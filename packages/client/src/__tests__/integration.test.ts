@@ -58,8 +58,7 @@ describe('Integration Tests', () => {
 
       // Create API client
       const client = new APIClient({
-        url: 'https://api.example.com',
-        basePath: '/v1',
+        url: 'https://api.example.com/v1',
         headers: { 'X-API-Key': 'test-key' },
       });
 

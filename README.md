@@ -31,13 +31,9 @@ pnpm add @fezi/client
 - **Automatic JSON parsing**: Parsed JSON responses automatically when possible.
 - **Schema validation**: Input/output validation optionally using Zod, Yup, Joi, or custom schemas.
 - **Error handling**: Uniform error objects with HTTP status, response data, and request information.
-- **Request timeouts**: Abort requests after a configurable timeout.
 - **Manual cancellation**: Supports AbortController for manual termination.
-- **Default headers and base URL**: Simple setting of default headers and a base URL to use across all requests.
 - **Composable routers and endpoints**: Create type-safe API clients using endpoint and router definitions.
 - **Extensible**: Simple integration with validation libraries and bespoke logic.
-- **Promise-based**: Updated async/await support.
-- **Lightweight**: Few dependencies and small bundle size.
 
 ## Usage
 
@@ -68,30 +64,21 @@ const newPost = await api.posts.create({ title: 'foo', body: 'bar', userId: 1 })
 
 ## API Reference
 
-### `APIClient(url, options?)`
-
-#### Parameters
-
-- `url` - The URL to make the request to
-- `options` - Optional configuration object
+### `APIClient(options?)`
 
 #### Options
 
-- `method` - HTTP method (GET, POST, PUT, DELETE, etc.)
+- `url` - The URL to make the request to
 - `headers` - Request headers
-- `body` - Request body (automatically stringified if object)
-- `timeout` - Request timeout in milliseconds
-- `retries` - Number of retry attempts for failed requests
-- `signal` - AbortSignal to cancel the request
 
 #### Returns
 
 Promise that resolves to a response object with:
 
 - `data` - Parsed response data
+- `error` - Error object if request failed, null otherwise
 - `status` - HTTP status code
 - `headers` - Response headers
-- `ok` - Boolean indicating if status is in the range 200-299
 
 ## Inspiration
 

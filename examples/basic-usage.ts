@@ -71,25 +71,6 @@ async function requestWithHeaders() {
   console.log('Status code:', status);
 }
 
-async function requestWithTimeout() {
-  const client = new APIClient({
-    url: 'https://jsonplaceholder.typicode.com',
-  });
-
-  const { data, error, status } = await client.execute({
-    path: '/posts/1',
-    timeout: 3000, // 3 seconds
-  });
-
-  if (error) {
-    console.error('Error in request with timeout:', error);
-    return;
-  }
-
-  console.log('Response with timeout:', data);
-  console.log('Status code:', status);
-}
-
 const userSchema = z.object({
   id: z.number(),
   name: z.string(),
@@ -104,7 +85,6 @@ async function apiClientExample() {
     headers: {
       'X-API-Key': 'demo-key',
     },
-    timeout: 5000,
   });
 
   const getUserEndpoint = client.route({ method: 'GET', path: '/users/1' }).output(userSchema);
@@ -141,7 +121,6 @@ async function routerExample() {
   // Create a client instance
   const client = new APIClient({
     url: 'https://jsonplaceholder.typicode.com',
-    timeout: 5000,
   });
 
   // Define endpoints
@@ -217,8 +196,6 @@ async function runExamples() {
 
   await requestWithHeaders();
   console.log('\n---\n');
-
-  await requestWithTimeout();
 
   await apiClientExample();
 

@@ -1,15 +1,9 @@
-// Define base interfaces first to avoid circular references
+export type StandardHeaders = Record<string, string | string[] | undefined>;
 
 /**
  * Fezi request options interface
  */
 export interface FeziOptions extends RequestInit {
-  /**
-   * Request timeout in milliseconds
-   * @default 10000
-   */
-  timeout?: number;
-
   /**
    * Whether to automatically parse JSON responses
    * @default true
@@ -29,12 +23,12 @@ export class FeziError extends Error {
   /**
    * Response data if available
    */
-  data?: any;
+  data?: unknown;
 
   /**
    * Response headers if available
    */
-  headers?: Headers;
+  headers?: Headers | StandardHeaders;
 
   /**
    * Original Response object if available
@@ -51,7 +45,13 @@ export class FeziError extends Error {
    */
   options: FeziOptions;
 
-  constructor(message: string, url: string, options: FeziOptions, response?: Response, data?: any) {
+  constructor(
+    message: string,
+    url: string,
+    options: FeziOptions,
+    response?: Response,
+    data?: unknown
+  ) {
     super(message);
     this.name = 'FeziError';
     this.url = url;
@@ -72,7 +72,7 @@ export class FeziError extends Error {
 /**
  * Fezi response interface
  */
-export interface FeziResponse<T = any> {
+export interface FeziResponse<T = unknown> {
   /**
    * Response data (parsed if JSON)
    */
@@ -91,17 +91,7 @@ export interface FeziResponse<T = any> {
   /**
    * Response headers
    */
-  headers: Headers;
-
-  /**
-   * Whether the request was successful (status in the range 200-299)
-   */
-  ok: boolean;
-
-  /**
-   * Original Response object
-   */
-  response: Response;
+  headers: Headers | StandardHeaders;
 }
 
 /**

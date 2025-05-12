@@ -31,6 +31,7 @@ const client = new APIClient({
   },
 });
 
+// Define schemas
 const userSchema = z.object({
   id: z.number(),
   name: z.string(),
@@ -41,9 +42,15 @@ const userSchema = z.object({
 const routes = {
   v1: {
     users: {
-      get: client.route({ path: '/users' }).output(z.array(userSchema)),
-      getById: client.route({ path: '/users/:id' }).output(userSchema),
-      create: client.route({ path: '/users', method: 'POST' }).input(userSchema.omit({ id: true })),
+      get: client
+      .route({ path: '/users' })
+      .output(z.array(userSchema)),
+      getById: client
+      .route({ path: '/users/:id' })
+      .output(userSchema),
+      create: client
+      .route({ path: '/users', method: 'POST' })
+      .input(userSchema.omit({ id: true })),
     },
   },
 };

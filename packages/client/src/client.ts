@@ -1,8 +1,6 @@
-import { FeziOptions, FeziResponse, FeziError } from './types';
+import { FeziOptions, FeziResponse, FeziError, StandardHeaders } from './types';
 import { Endpoint, RequestConfig } from './endpoint';
-import { createClientAPI } from './router';
 
-const DEFAULT_TIMEOUT = 10000;
 const DEFAULT_CONTENT_TYPE = 'application/json';
 const DEFAULT_HTTP_METHOD = 'GET';
 
@@ -19,18 +17,7 @@ export interface APIClientOptions {
    * Default headers for all requests
    * Can be a static object or a function that returns headers
    */
-  headers?: Record<string, string> | (() => Record<string, string>);
-
-  /**
-   * Default timeout in milliseconds
-   * @default 10000
-   */
-  timeout?: number;
-
-  /**
-   * Default path prefix for all requests
-   */
-  basePath?: string;
+  headers?: StandardHeaders | (() => StandardHeaders) | (() => Promise<StandardHeaders>);
 }
 
 /**
@@ -86,7 +73,6 @@ export class APIClient {
    */
   constructor(options: APIClientOptions) {
     this.options = {
-      timeout: DEFAULT_TIMEOUT,
       ...options,
     };
   }
@@ -110,10 +96,6 @@ export class APIClient {
       endpoint.headers(config.headers);
     }
 
-    if (config.timeout) {
-      endpoint.timeout(config.timeout);
-    }
-
     return endpoint;
   }
 
@@ -128,10 +110,10 @@ export class APIClient {
     }
   ): Promise<FeziResponse<TOutput>> {
     const url = this.buildUrl(config);
-    const options = this.buildOptions(config);
+    const options = await this.buildOptions(config);
 
     try {
-      return await this.fetchRequest(url, options);
+      return await this.fetchRequest<TOutput>(url, options);
     } catch (error) {
       if (error instanceof FeziError) {
         throw error;
@@ -153,12 +135,6 @@ export class APIClient {
       : this.options.url;
 
     let url = normalizedUrl;
-    if (this.options.basePath) {
-      const basePath = this.options.basePath.startsWith('/')
-        ? this.options.basePath
-        : `/${this.options.basePath}`;
-      url += basePath;
-    }
 
     if (config.path) {
       const path = config.path.startsWith('/') ? config.path : `/${config.path}`;
@@ -186,11 +162,10 @@ export class APIClient {
   /**
    * Build request options by merging defaults with request-specific options
    */
-  private buildOptions(config: RequestConfig & { body?: any }): FeziOptions {
+  private async buildOptions(config: RequestConfig & { body?: any }): Promise<FeziOptions> {
     const options: FeziOptions = {
       method: config.method || DEFAULT_HTTP_METHOD,
-      timeout: config.timeout ?? this.options.timeout,
-      headers: this.mergeHeaders(config.headers),
+      headers: await this.mergeHeaders(config.headers),
     };
 
     if (config.body && !['GET', 'HEAD'].includes(options.method || '')) {
@@ -203,10 +178,12 @@ export class APIClient {
   /**
    * Merge default headers with request-specific headers
    */
-  private mergeHeaders(requestHeaders?: Record<string, string>): Record<string, string> {
+  private async mergeHeaders(
+    requestHeaders?: Record<string, string>
+  ): Promise<Record<string, string>> {
     const defaultHeaders =
       typeof this.options.headers === 'function'
-        ? this.options.headers()
+        ? await this.options.headers()
         : this.options.headers || {};
 
     return {
@@ -219,18 +196,13 @@ export class APIClient {
   /**
    * Perform a fetch request
    */
-  private async fetchRequest(url: string, options: FeziOptions): Promise<FeziResponse<any>> {
-    const controller = new AbortController();
-    let timeoutId: NodeJS.Timeout | null = null;
-
-    if (options.timeout) {
-      timeoutId = setTimeout(() => controller.abort(), options.timeout);
-    }
-
+  private async fetchRequest<TOutput>(
+    url: string,
+    options: FeziOptions
+  ): Promise<FeziResponse<TOutput>> {
     try {
       const fetchOptions: RequestInit = {
         ...options,
-        signal: controller.signal,
       };
 
       const response = await fetch(url, fetchOptions);
@@ -248,15 +220,9 @@ export class APIClient {
         error: null,
         status: response.status,
         headers: response.headers,
-        ok: response.ok,
-        response,
       };
     } catch (error) {
       throw new FeziError(error instanceof Error ? error.message : String(error), url, options);
-    } finally {
-      if (timeoutId !== null) {
-        clearTimeout(timeoutId);
-      }
     }
   }
 }

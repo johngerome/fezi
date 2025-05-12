@@ -6,7 +6,7 @@ describe('FeziError', () => {
     // Setup
     const message = 'Request failed';
     const url = 'https://api.example.com/users';
-    const options = { method: 'GET', timeout: 5000 };
+    const options = { method: 'GET' };
 
     // Execute
     const error = new FeziError(message, url, options);
@@ -24,7 +24,7 @@ describe('FeziError', () => {
     // Setup
     const message = 'Request failed';
     const url = 'https://api.example.com/users';
-    const options = { method: 'GET', timeout: 5000 };
+    const options = { method: 'GET' };
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
@@ -46,7 +46,7 @@ describe('FeziError', () => {
     // Setup
     const message = 'Request failed';
     const url = 'https://api.example.com/users';
-    const options = { method: 'GET', timeout: 5000 };
+    const options = { method: 'GET' };
     const data = { error: 'Not found', code: 'RESOURCE_NOT_FOUND' };
 
     // Execute
@@ -60,7 +60,7 @@ describe('FeziError', () => {
     // Setup
     const message = 'Request failed';
     const url = 'https://api.example.com/users';
-    const options = { method: 'GET', timeout: 5000 };
+    const options = { method: 'GET' };
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 

@@ -21,11 +21,6 @@ export interface RequestConfig {
    * Additional headers for this request
    */
   headers?: Record<string, string>;
-
-  /**
-   * Override default timeout for this request
-   */
-  timeout?: number;
 }
 
 /**
@@ -108,14 +103,6 @@ export class Endpoint<TInput = any, TOutput = any> {
    */
   headers(headers: Record<string, string>): Endpoint<TInput, TOutput> {
     this.config.headers = headers;
-    return this;
-  }
-
-  /**
-   * Set timeout for this request
-   */
-  timeout(timeout: number): Endpoint<TInput, TOutput> {
-    this.config.timeout = timeout;
     return this;
   }
 

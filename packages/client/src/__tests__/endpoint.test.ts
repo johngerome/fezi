@@ -36,17 +36,8 @@ describe('Endpoint', () => {
       expect(result).toBe(endpoint); // Should return this for chaining
     });
 
-    it('should set timeout correctly', () => {
-      const result = endpoint.timeout(5000);
-      expect(result).toBe(endpoint); // Should return this for chaining
-    });
-
     it('should allow method chaining', () => {
-      const result = endpoint
-        .path('/users')
-        .method('POST')
-        .headers({ 'X-Custom': 'value' })
-        .timeout(5000);
+      const result = endpoint.path('/users').method('POST').headers({ 'X-Custom': 'value' });
 
       expect(result).toBe(endpoint);
     });
