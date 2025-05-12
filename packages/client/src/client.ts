@@ -208,12 +208,10 @@ export class APIClient {
       const response = await fetch(url, fetchOptions);
       const parseJson = options.parseJson !== false;
 
-      let data: any;
-      if (parseJson && response.headers.get('content-type')?.includes('application/json')) {
-        data = await response.json();
-      } else {
-        data = await response.text();
-      }
+      const data =
+        parseJson && response.headers.get('content-type')?.includes('application/json')
+          ? await response.json()
+          : await response.text();
 
       return {
         data,
