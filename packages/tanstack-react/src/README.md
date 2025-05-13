@@ -35,8 +35,8 @@ const client = new APIClient({
 const usersGet = client.route({ method: 'GET', path: '/users' });
 const usersPost = client.route({ method: 'POST', path: '/users' });
 
-// Create a router with your endpoints
-const router = {
+// Create a routes with your endpoints
+const routes = {
   users: {
     get: usersGet,
     post: usersPost,
@@ -44,7 +44,7 @@ const router = {
 };
 
 // Create a TanStack Query API from your router
-const api = createTanStackAPI(router);
+const api = createTanStackAPI(routes);
 
 // Use in React components
 function UsersComponent() {

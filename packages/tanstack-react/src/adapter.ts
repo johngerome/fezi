@@ -19,7 +19,7 @@ import type {
  * @param path An array of strings representing the path to this endpoint, used for generating default query keys.
  * @returns An enhanced endpoint (`TanStackEndpoint`) compatible with TanStack Query.
  */
-export function asTanStackEndpoint<TInput, TOutput>(
+function asTanStackEndpoint<TInput, TOutput>(
   endpoint: Endpoint<TInput, TOutput>,
   path: string[]
 ): TanStackEndpoint<TInput, TOutput> {

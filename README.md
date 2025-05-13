@@ -54,7 +54,7 @@ const routes = {
   },
 };
 
-const api = createClientAPI(client, routes);
+const api = createClientAPI(routes);
 
 const user = await api.users.get();
 const newPost = await api.posts.create({ title: 'foo', body: 'bar', userId: 1 });
